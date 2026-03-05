@@ -15,7 +15,18 @@ Objectif : streaming temps réel d’un indicateur d’engagement + marqueurs de
 - `STATUS` (Read/Notify)
   - état, batterie, compteur échantillons
 
+## Endianness
+- Tout le binaire est en **little-endian**.
+
 ## Format LIVE_DATA (suggestion)
+### V1 (MPU-only, sans température)
+- `uint32 t0_ms`
+- `uint8 n`
+- répété `n` fois :
+  - `int16 a_dyn_mg`
+  - `uint16 engage_inst`
+
+### V1 (avec température, à venir)
 - `uint32 t0_ms`
 - `uint8 n`
 - répété `n` fois :
@@ -23,7 +34,11 @@ Objectif : streaming temps réel d’un indicateur d’engagement + marqueurs de
   - `uint16 engage_inst`
   - `int16 temp_centi` (option)
 
+## CONTROL (tests)
+Pour les tests simples :
+- `0x01` = START_SESSION
+- `0x02` = STOP_SESSION
+
 ## Versioning
 - Première octet optionnel : `protocol_version` (ex: 1)
 - Garder le protocole rétrocompatible.
-
